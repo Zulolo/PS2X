@@ -138,27 +138,7 @@ void ps2x_task_code( void * pvParameters ){
         servo_angles[4] = 30;
         servo_angles[5] = 90;        
       } 
-  
-      if(ps2x.Button(PSB_PAD_UP)) {      //will be TRUE as long as button is pressed
-        if (servo_angles[1] < 180) {
-          servo_angles[1]++;
-        }
-      }
-      if(ps2x.Button(PSB_PAD_DOWN)){
-        if (servo_angles[1] > 0) {
-          servo_angles[1]--;
-        }
-      }       
-      if(ps2x.Button(PSB_PAD_RIGHT)){
-        if (servo_angles[5] < 180) {
-          servo_angles[5]++;
-        }
-      }
-      if(ps2x.Button(PSB_PAD_LEFT)){
-        if (servo_angles[5] > 0) {
-          servo_angles[5]--;
-        }
-      }
+      
       if(ps2x.Button(PSB_L2)){
         if (servo_angles[0] > 0) {
           servo_angles[0]--;
@@ -168,39 +148,21 @@ void ps2x_task_code( void * pvParameters ){
         if (servo_angles[0] < 80) {
           servo_angles[0]++;
         }
-      }  
-  
-      vibrate = ps2x.Analog(PSAB_CROSS);  //this will set the large motor vibrate speed based on how hard you press the blue (X) button
-      if (ps2x.NewButtonState()) {        //will be TRUE if any button changes state (on to off, or off to on)
-        if(ps2x.Button(PSB_L3))
-          Serial.println("L3 pressed");
-        if(ps2x.Button(PSB_R3))
-          Serial.println("R3 pressed");
-        if(ps2x.Button(PSB_L2))
-          Serial.println("L2 pressed");
-        if(ps2x.Button(PSB_R2))
-          Serial.println("R2 pressed");
-        if(ps2x.Button(PSB_TRIANGLE))
-          Serial.println("Triangle pressed");        
+      } 
+      if(ps2x.Button(PSB_PAD_UP)) {      //will be TRUE as long as button is pressed
+        if (servo_angles[1] < 180) {
+          servo_angles[1]++;
+        }
       }
-  
-      if(ps2x.ButtonPressed(PSB_CIRCLE))               //will be TRUE if button was JUST pressed
-        Serial.println("Circle just pressed");
-      if(ps2x.NewButtonState(PSB_CROSS))               //will be TRUE if button was JUST pressed OR released
-        Serial.println("X just changed");
-      if(ps2x.ButtonReleased(PSB_SQUARE))              //will be TRUE if button was JUST released
-        Serial.println("Square just released");     
-  
-      if(ps2x.Button(PSB_L1) || ps2x.Button(PSB_R1)) { //print stick values if either is TRUE
-        Serial.print("Stick Values:");
-        Serial.print(ps2x.Analog(PSS_LY), DEC); //Left stick, Y axis. Other options: LX, RY, RX  
-        Serial.print(",");
-        Serial.print(ps2x.Analog(PSS_LX), DEC); 
-        Serial.print(",");
-        Serial.print(ps2x.Analog(PSS_RY), DEC); 
-        Serial.print(",");
-        Serial.println(ps2x.Analog(PSS_RX), DEC); 
-      }        
+      if(ps2x.Button(PSB_PAD_DOWN)){
+        if (servo_angles[1] > 0) {
+          servo_angles[1]--;
+        }
+      }            
+      servo_angles[2] = map(ps2x.Analog(PSS_LX), 0, 255, 0, 180);
+      servo_angles[3] = map(ps2x.Analog(PSS_LY), 0, 255, 0, 180);
+      servo_angles[4] = map(ps2x.Analog(PSS_RY), 0, 255, 0, 180);
+      servo_angles[5] = map(ps2x.Analog(PSS_RX), 0, 255, 0, 180);
     }
     delay(50);  
   } 
